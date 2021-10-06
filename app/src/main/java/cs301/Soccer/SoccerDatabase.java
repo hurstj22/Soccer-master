@@ -134,6 +134,28 @@ public class SoccerDatabase implements SoccerDB {
     // get the nTH player
     @Override
     public SoccerPlayer playerIndex(int idx, String teamName) {
+        Enumeration<SoccerPlayer> values = database.elements();
+
+        if(idx > numPlayers(teamName)){
+            return null;
+        }
+            while(values.hasMoreElements() && idx >= 0){
+                SoccerPlayer temp = values.nextElement(); //make a temporary player that's updated each time
+                if(teamName !=  null) {
+                    if (temp.getTeamName().equalsIgnoreCase(teamName)){ //if there's a teamname, only decrement when a member is found
+                        if(idx <= 0){
+                            return temp;
+                        }
+                        idx--;
+                    }
+                }
+                else {
+                    if(idx <= 0){
+                        return temp;
+                    }
+                    idx--; //if there's no teamname just decrement each time
+                }
+            }
         return null;
     }
 
