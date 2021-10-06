@@ -139,6 +139,7 @@ public class MainActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+
         // define listeners for all the buttons
         addButton.setOnClickListener(new AddButtonListener());
         findButton.setOnClickListener(new FindButtonListener());
