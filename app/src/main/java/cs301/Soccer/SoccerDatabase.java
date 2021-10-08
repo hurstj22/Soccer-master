@@ -3,6 +3,8 @@ package cs301.Soccer;
 import android.util.Log;
 import cs301.Soccer.soccerPlayer.SoccerPlayer;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -111,7 +113,7 @@ public class SoccerDatabase implements SoccerDB {
     // report number of players on a given team (or all players, if null)
     public int numPlayers(String teamName) {
         Enumeration<SoccerPlayer> values = database.elements();
-        int counter = -1;
+        int counter = 0;
 
         if(teamName == null){
             return database.size();
@@ -177,8 +179,32 @@ public class SoccerDatabase implements SoccerDB {
      */
     // write data to file
     @Override
-    public boolean writeData(File file) {
-        return false;
+    public boolean writeData(File file){
+        PrintWriter pw = null;
+        Iterator players = database.values().iterator();
+
+
+        //making changes
+        try{
+            pw = new PrintWriter(file);
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+                while (players.hasNext()) {
+                    SoccerPlayer player = (SoccerPlayer) players.next(); //make a temporary player that's updated each time
+                    //print all information about each player to the file
+                    pw.println(logString(player.getFirstName()));
+                    pw.println(logString(player.getLastName()));
+                    pw.println(logString("" + player.getUniform()));
+                    pw.println(logString(player.getTeamName()));
+                    pw.println(logString("" + player.getGoals()));
+                    pw.println(logString("" + player.getYellowCards()));
+                    pw.println(logString("" + player.getRedCards()));
+                }
+                pw.close();
+                return true;
     }
 
     /**
